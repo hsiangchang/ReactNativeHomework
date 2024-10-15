@@ -1,6 +1,6 @@
 # React Native 第 1 章，作業 2 - 按鈕組件應用
 
-Hahow 課程：跨平台 APP - React Native 快速學習攻略 ![課程連結](![案例：初始頁面](./screenshot/1-2-1.png))
+Hahow 課程：跨平台 APP - React Native 快速學習攻略（[課程連結](<https://hahow.in/courses/5dbe90cfa4b1c600214d0ab5/discussions?item=5e142f57f1ed6606cb441dea>)）
 
     說明與規則
     
