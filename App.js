@@ -1,76 +1,73 @@
 import { useState } from 'react';
-import { StyleSheet, Text, View, TextInput, TouchableOpacity, Image } from 'react-native';
+import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native';
 
 export default function App() {
 
-  const imageUris = [
-    'https://i.pinimg.com/736x/98/69/e4/9869e47241deb630ac142037e9977524.jpg',
-    'https://img5.pcpop.com/bizhi/big/10/181/771/10181771.jpg',
-    'https://obs.line-scdn.net/0hFRn2YpVmGX1TSw70MhVmKm0dRFMoOABvLjMUH3BDFR57K1gob3gGS3QYRRope1subCheEiQYE0p4KFk'
-  ]
+  // 驗證碼
+  const [validCode, setValidCode] = useState('')
+  
+  // 正常訊息
+  const [infoMsg, setInfoMsg] = useState('')
+  
+  // 異常訊息
+  const [errorMsg, setErrorMsg] = useState('')
 
-  const [count, setCount] = useState('0')
-  const [imageUri, setImageUri] = useState(imageUris[0])
-
-  const plus = function (v) {
-    v = parseInt(count) + v
-    setCount('' + v)
+  // 按下清除按鈕:清除相關欄位及訊息
+  const clear = function() {
+    setInfoMsg('')
+    setErrorMsg('')
   }
 
-  const changeImage = function (v) {
-    setImageUri(imageUris[v])
+  // 按下確認按鈕:檢核驗證碼
+  const confirm = function() {
+    clear()
+    if( validCode === '1234') {
+      setInfoMsg('驗證碼正確')
+    } else {
+      setErrorMsg('驗證碼錯誤')
+    }
+  }
+
+  // 即時處理輸入驗證碼長度訊息
+  const getCode = function() {
+    if(validCode.length == 0) {
+      return <Text>未輸入任何驗證碼</Text>
+    } else {
+      return <Text>已輸入 {validCode.length} 位驗證碼</Text>
+    }
   }
 
   return (
     <View style={styles.container}>
-      <Text style={styles.header}>第 1 章，作業 2 - 按鈕組件應用</Text>
+      <Text style={styles.header}>第 1 章，作業 3 - 密碼判斷APP</Text>
       <View style={[styles.fieldSet, { marginTop: 40 }]}>
-        <Text style={styles.legend}>計數器</Text>
+        <Text style={styles.legend}>請輸入驗證碼</Text>
         <TextInput
           style={styles.inuptText}
-          value={count}
-          editable={false}
+          keyboardType='numeric'
+          value={validCode}
+          onChangeText={(v)=>{clear(),setValidCode(v)}}
+          secureTextEntry={true}
+          maxLength={4}
         ></TextInput>
       </View>
+      <Text style={{paddingBottom:10, fontSize:12, fontWeight:'bold'}}>{getCode()}</Text>
       <View style={{ flexDirection: "row", width: '90%' }}>
         <TouchableOpacity
           style={styles.btnMinus}
-          onPress={() => plus(-1)}
+          onPress={() => {clear(), setValidCode('')}}
         >
-          <Text style={styles.btnText}>減少</Text>
+          <Text style={styles.btnText}>清除</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.btnPlus}
-          onPress={() => plus(1)}
+          onPress={() => confirm()}
         >
-          <Text style={styles.btnText}>增加</Text>
+          <Text style={styles.btnText}>確認</Text>
         </TouchableOpacity>
       </View>
-      <Image
-        style={styles.imageContent}
-        source={{ uri: imageUri }}
-      >
-      </Image>
-      <View style={{ flexDirection: "row", width: '90%', marginBottom: 30 }}>
-        <TouchableOpacity
-          style={[styles.btnNav, { backgroundColor: '#F5B428' }]}
-          onPress={() => changeImage(0)}
-        >
-          <Text style={[styles.btnText, { color: 'black' }]}>勇士隊</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={[styles.btnNav, { backgroundColor: '#94002D' }]}
-          onPress={() => changeImage(1)}
-        >
-          <Text style={styles.btnText}>熱火隊</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={[styles.btnNav, { backgroundColor: '#005082' }]}
-          onPress={() => changeImage(2)}
-        >
-          <Text style={styles.btnText}>灰狼隊</Text>
-        </TouchableOpacity>
-      </View>
+      <Text style={styles.info}>{infoMsg}</Text>
+      <Text style={styles.error}>{errorMsg}</Text>
     </View>
   );
 }
@@ -81,14 +78,6 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgb(204,238,238)',
     alignItems: 'center',
     justifyContent: 'flex-start',
-  },
-  imageContent: { 
-    width: '90%', 
-    backgroundColor: 'pink', 
-    marginTop: 20, 
-    borderTopStartRadius: 20, 
-    borderTopEndRadius: 20, 
-    flex: 1 
   },
   btnMinus: {
     width: '50%',
@@ -102,15 +91,23 @@ const styles = StyleSheet.create({
     borderTopEndRadius: 10,
     borderBottomEndRadius: 10
   },
-  btnNav: {
-    width: '33.3%',
-    backgroundColor: 'blue',
-  },
   btnText: {
     padding: 10,
     color: '#FFF',
     fontSize: 20,
     textAlign: 'center'
+  },
+  info: {
+    marginTop:20,
+    color:'green',
+    fontSize:24,
+    fontWeight:'bold'
+  },
+  error: {
+    marginTop:20,
+    color:'red',
+    fontSize:24,
+    fontWeight:'bold'
   },
   header: {
     width: '100%',
@@ -123,6 +120,8 @@ const styles = StyleSheet.create({
   },
   inuptText: {
     fontSize: 20,
+    textAlign:'center',
+    width:'90%'
   },
   fieldSet: {
     marginTop: 20,
