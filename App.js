@@ -1,73 +1,65 @@
-import { useState } from 'react';
-import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native';
+import { StatusBar } from 'expo-status-bar';
+import { StyleSheet, Text, View,TextInput, TouchableOpacity } from 'react-native';
+import MyFood from './src/components/view/MyFood';
 
 export default function App() {
 
-  // 驗證碼
-  const [validCode, setValidCode] = useState('')
-  
-  // 正常訊息
-  const [infoMsg, setInfoMsg] = useState('')
-  
-  // 異常訊息
-  const [errorMsg, setErrorMsg] = useState('')
-
-  // 按下清除按鈕:清除相關欄位及訊息
-  const clear = function() {
-    setInfoMsg('')
-    setErrorMsg('')
-  }
-
-  // 按下確認按鈕:檢核驗證碼
-  const confirm = function() {
-    clear()
-    if( validCode === '1234') {
-      setInfoMsg('驗證碼正確')
-    } else {
-      setErrorMsg('驗證碼錯誤')
-    }
-  }
-
-  // 即時處理輸入驗證碼長度訊息
-  const getCode = function() {
-    if(validCode.length == 0) {
-      return <Text>未輸入任何驗證碼</Text>
-    } else {
-      return <Text>已輸入 {validCode.length} 位驗證碼</Text>
-    }
-  }
-
   return (
     <View style={styles.container}>
-      <Text style={styles.header}>第 1 章，作業 3 - 密碼判斷APP</Text>
-      <View style={[styles.fieldSet, { marginTop: 40 }]}>
-        <Text style={styles.legend}>請輸入驗證碼</Text>
-        <TextInput
-          style={styles.inuptText}
-          keyboardType='numeric'
-          value={validCode}
-          onChangeText={(v)=>{clear(),setValidCode(v)}}
-          secureTextEntry={true}
-          maxLength={4}
-        ></TextInput>
-      </View>
-      <Text style={{paddingBottom:10, fontSize:12, fontWeight:'bold'}}>{getCode()}</Text>
-      <View style={{ flexDirection: "row", width: '90%' }}>
-        <TouchableOpacity
-          style={styles.btnMinus}
-          onPress={() => {clear(), setValidCode('')}}
-        >
-          <Text style={styles.btnText}>清除</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.btnPlus}
-          onPress={() => confirm()}
-        >
-          <Text style={styles.btnText}>確認</Text>
-        </TouchableOpacity>
-      </View>
-      <Text style={styles.info}>{infoMsg}</Text>
-      <Text style={styles.error}>{errorMsg}</Text>
+      <Text style={styles.header}>訂單資料</Text>
+      <StatusBar style="auto" />
+
+      <View
+        style={{
+        borderBottomColor: 'black',
+        borderBottomWidth: 0.8,
+        width:'100%',
+        marginTop:10
+      }}/>
+
+      <MyFood 
+        title='麥當勞南港中信門市' 
+        count='2' 
+        sum='340'
+        date='10月12日'
+        status='準備中'
+        image='https://www.foodiesfeed.com/wp-content/uploads/2023/06/burger-with-melted-cheese.jpg'/>
+      <MyFood 
+        title='麥味登基隆長庚店' 
+        count='4' 
+        sum='325'
+        date='10月11日'
+        status='已取消'
+        image='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRVRLwJY8m-dtFYyzDxEbUr-Bn8W4WIbqJzEg&s'/>
+      <MyFood 
+        title='美而美汐止民峰店'
+        count='3' 
+        sum='215'
+        date='10月09日'
+        status='已完成'
+        image='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRnMSX6uBUUQze22O3WLBM-XxK3NvhRSjW-Cw&s'/>
+      <MyFood 
+        title='星巴克南港園區門市'
+        count='3' 
+        sum='215'
+        date='10月04日'
+        status='已完成'
+        image='https://media.gq.com.tw/photos/5dbc7df10327d200088366e3/16:9/w_1280,c_limit/2017022171286265.jpg'/>
+      <MyFood 
+        title='全聯南港旗鑑門市'
+        count='2' 
+        sum='315'
+        date='10月02日'
+        status='已完成'
+        image='https://www.brandinlabs.com/wp-content/uploads/2014/05/PX.gif'/>
+      <MyFood 
+        title='非常泰南港中信門市'
+        count='6' 
+        sum='1800'
+        date='09月28日'
+        status='已完成'
+        image='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTWS80F0fCus8BIHRqWPoPWTmUMKD6ruIcR1Q&s'/>
+
     </View>
   );
 }
@@ -75,73 +67,14 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'rgb(204,238,238)',
+    backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'flex-start',
   },
-  btnMinus: {
-    width: '50%',
-    backgroundColor: 'red',
-    borderTopStartRadius: 10,
-    borderBottomStartRadius: 10
-  },
-  btnPlus: {
-    width: '50%',
-    backgroundColor: 'green',
-    borderTopEndRadius: 10,
-    borderBottomEndRadius: 10
-  },
-  btnText: {
-    padding: 10,
-    color: '#FFF',
-    fontSize: 20,
-    textAlign: 'center'
-  },
-  info: {
-    marginTop:20,
-    color:'green',
-    fontSize:24,
-    fontWeight:'bold'
-  },
-  error: {
-    marginTop:20,
-    color:'red',
-    fontSize:24,
-    fontWeight:'bold'
-  },
   header: {
-    width: '100%',
-    paddingTop: 60,
-    paddingBottom: 10,
-    textAlign: 'center',
-    backgroundColor: '#5A4C99',
-    color: 'white',
-    fontSize: 20
-  },
-  inuptText: {
-    fontSize: 20,
-    textAlign:'center',
-    width:'90%'
-  },
-  fieldSet: {
-    marginTop: 20,
-    marginBottom: 10,
-    padding: 10,
-    borderRadius: 5,
-    borderWidth: 1,
-    fontSize: 20,
-    width: '90%',
-    textAlign: 'center',
-    alignItems: 'center',
-  },
-  legend: {
-    position: 'absolute',
-    top: -10,
-    left: 10,
-    paddingStart: 5,
-    paddingEnd: 5,
-    fontWeight: 'bold',
-    fontSize: 18,
-    backgroundColor: 'rgb(204,238,238)',
+    marginTop:60,
+    fontSize:20,
+    fontWeight:'bold'
   }
 });
+
