@@ -12,7 +12,7 @@ Hahow 課程：跨平台 APP - React Native 快速學習攻略（[課程連結](
 ![案例：初始頁面](./screenshot/2-3-1.png)
 
 ## 定義 Mocked Data 資料
-```json
+``` js
 const MOCKED_DATA = [
   {
     storeName:'麥當勞南港中信門市',
